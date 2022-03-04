@@ -20,6 +20,11 @@ module.exports = {
     indent: 'off',
     'no-undef': 'off',
     '@typescript-eslint/indent': ['error', 2],
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-filename-extension': [
+      1,
+      { extensions: ['.js', '.jsx', 'ts', 'tsx'] }
+    ],
     'no-warning-comments': [
       'warn',
       { terms: ['todo', 'fixme', 'xxx', '**', '!', '?'], location: 'start' }
