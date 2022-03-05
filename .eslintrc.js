@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: ['next/core-web-vitals', 'plugin:react/recommended', 'standard'],
+  extends: ['plugin:react/recommended', 'standard', 'next/core-web-vitals'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -15,19 +15,19 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
-    indent: 'off',
+    'no-warning-comments': [
+      'warn',
+      { terms: ['todo', 'fixme', 'xxx', '**', '!', '?'], location: 'start' }
+    ],
     'no-undef': 'off',
+    indent: 'off',
     '@typescript-eslint/indent': ['error', 2],
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [
       1,
       { extensions: ['.js', '.jsx', 'ts', 'tsx'] }
     ],
-    'no-warning-comments': [
-      'warn',
-      { terms: ['todo', 'fixme', 'xxx', '**', '!', '?'], location: 'start' }
-    ]
+    'no-use-before-define': 0
   }
 }
