@@ -1,29 +1,30 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Image from 'next/image'
-import { IPokemonInfo } from '../../interface'
+import { IPokemonInfo, Sprites } from '../../interface'
 import { InitialLayout } from '../../layouts'
 import { pokemonData } from '../../utils'
 
 export interface IPropsPokemonPage {
-  pokemon: IPokemonInfo
+  sprites: Sprites
+  name: string
 }
 
-const PokemonPage: NextPage<IPropsPokemonPage> = ({ pokemon }) => {
+const PokemonPage: NextPage<IPropsPokemonPage> = ({ sprites, name }) => {
   return (
-    <InitialLayout title={pokemon.name}>
+    <InitialLayout title={name}>
       <div className='text-white w-full flex flex-col md:flex-row transform duration-1000 ease-in-out gap-4'>
         <div className='w-full flex flex-row justify-center items-center p-2 bg-slate-800'>
           <Image
-            src={pokemon.sprites.front_default}
+            src={sprites.front_default}
             width={200}
             height={200}
-            alt={`Imagen de pokémon ${pokemon.name}`}
+            alt={`Imagen de pokémon ${name}`}
           />
         </div>
         <div className='w-full items-center justify-center flex flex-col gap-4'>
           <div className='w-full flex flex-row bg-slate-800 p-2 md:p-3 uppercase'>
             <div className='w-1/2 h-full flex flex-row justify-start items-center'>
-              <h1 className='text-2xl'>{pokemon.name}</h1>
+              <h1 className='text-2xl'>{name}</h1>
             </div>
             <div className='w-1/2 flex flex-row justify-end items-center p-5'>
               <button className='w-[65%] flex flex-row justify-center items-center bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] rounded-lg p-1 hover:scale-105'>
@@ -37,28 +38,28 @@ const PokemonPage: NextPage<IPropsPokemonPage> = ({ pokemon }) => {
             <h2>Sprites</h2>
             <div className='w-full grid grid-cols-4 gap-4'>
               <Image
-                src={pokemon.sprites.front_default}
+                src={sprites.front_default}
                 width={300}
                 height={300}
-                alt={`Imagen de pokémon ${pokemon.name}`}
+                alt={`Imagen de pokémon ${name}`}
               />
               <Image
-                src={pokemon.sprites.back_default}
+                src={sprites.back_default}
                 width={100}
                 height={100}
-                alt={`Imagen de pokémon ${pokemon.name}`}
+                alt={`Imagen de pokémon ${name}`}
               />
               <Image
-                src={pokemon.sprites.front_shiny}
+                src={sprites.front_shiny}
                 width={100}
                 height={100}
-                alt={`Imagen de pokémon ${pokemon.name}`}
+                alt={`Imagen de pokémon ${name}`}
               />
               <Image
-                src={pokemon.sprites.back_shiny}
+                src={sprites.back_shiny}
                 width={100}
                 height={100}
-                alt={`Imagen de pokémon ${pokemon.name}`}
+                alt={`Imagen de pokémon ${name}`}
               />
             </div>
           </div>
@@ -87,7 +88,13 @@ export const getStaticProps: GetStaticProps = async ctx => {
   )
   return {
     props: {
-      pokemon: data
+      sprites: {
+        front_default: data.sprites.front_default,
+        back_default: data.sprites.back_default,
+        front_shiny: data.sprites.front_shiny,
+        back_shiny: data.sprites.back_shiny
+      },
+      name: data.name
     }
   }
 }
