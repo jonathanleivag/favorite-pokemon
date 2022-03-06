@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import { IResultPokemon } from '../../../interface'
 
@@ -8,8 +9,12 @@ export interface IPropsHomePage {
 
 export const CardHomePageComponent: FC<IPropsHomePage> = ({ pokemon }) => {
   const [selectEffect, setSelectEffect] = useState<string>('')
+  const router = useRouter()
 
-  const handleClick = () => setSelectEffect('animate-ping')
+  const handleClick = () => {
+    setSelectEffect('animate-ping')
+    router.push(`/pokemon/${pokemon.id}`)
+  }
 
   return (
     <button className={selectEffect} onClick={handleClick}>
