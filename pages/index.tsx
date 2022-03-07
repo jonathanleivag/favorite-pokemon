@@ -23,23 +23,14 @@ const HomePage: NextPage<IPropsHomePage> = ({ pokemons }) => {
 export default HomePage
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  let pokemons: IResultPokemon[] = []
-  const { data } = await pokemonData.get<IPokemon>('/pokemon?limit=201')
+  const { data } = await pokemonData.get<IPokemon>('/pokemon?limit=151')
 
-  for await (const pokemon of data.results) {
-    const id: number = +pokemon.url.split('/')[6]
-
-    pokemons = [
-      ...pokemons,
-      {
-        ...data.results[id],
-        id,
-        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`
-      }
-    ]
-  }
-
-  pokemons.pop()
+  const pokemons = data.results.map((pokemon, index) => ({
+    ...pokemon,
+    id: index + 1,
+    image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${index +
+      1}.svg`
+  }))
 
   return {
     props: {
