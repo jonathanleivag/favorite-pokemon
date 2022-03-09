@@ -13,7 +13,7 @@ export const CardHomePageComponent: FC<IPropsHomePage> = ({ pokemon }) => {
 
   const handleClick = () => {
     setSelectEffect('animate-ping')
-    router.push(`/pokemon/${pokemon.id}`)
+    router.push(`/pokemon/name/${pokemon.name}`)
   }
 
   return (

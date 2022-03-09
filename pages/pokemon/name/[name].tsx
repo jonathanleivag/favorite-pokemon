@@ -2,9 +2,10 @@ import confetti from 'canvas-confetti'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Image from 'next/image'
 import { useState } from 'react'
-import { Sprites } from '../../interface'
-import { InitialLayout } from '../../layouts'
-import { existInFavorite, getInfoPokemon, toggleFavorite } from '../../utils'
+import { IPokemon, Sprites } from '../../../interface'
+import { InitialLayout } from '../../../layouts'
+import { getInfoPokemon, pokemonData } from '../../../utils'
+import { existInFavorite, toggleFavorite } from '../../../utils/toggleFavorite'
 
 export interface IPropsPokemonPage {
   sprites: Sprites
@@ -12,7 +13,11 @@ export interface IPropsPokemonPage {
   id: number
 }
 
-const PokemonPage: NextPage<IPropsPokemonPage> = ({ sprites, name, id }) => {
+const PokemonNamePage: NextPage<IPropsPokemonPage> = ({
+  sprites,
+  name,
+  id
+}) => {
   const [inIsFavorites, setInIsFavorites] = useState(existInFavorite(id))
 
   const handleFavoritePokemon = () => {
@@ -103,24 +108,24 @@ const PokemonPage: NextPage<IPropsPokemonPage> = ({ sprites, name, id }) => {
   )
 }
 
-export default PokemonPage
+export default PokemonNamePage
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  const pokemon200: string[] = [...Array(200)].map((value, index) =>
-    (index + 1).toString()
-  )
+  const { data } = await pokemonData.get<IPokemon>('/pokemon?limit=200')
+  const pokemon200: string[] = data.results.map(pokemon => pokemon.name)
 
   return {
-    paths: pokemon200.map(pokemon => ({ params: { id: pokemon } })),
+    paths: pokemon200.map(pokemon => ({ params: { name: pokemon } })),
     fallback: false
   }
 }
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  const { id } = ctx.params as { id: string }
+  const { name } = ctx.params as { name: string }
+
   return {
     props: {
-      ...(await getInfoPokemon(id))
+      ...(await getInfoPokemon(name))
     }
   }
 }

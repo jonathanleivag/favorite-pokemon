@@ -23,7 +23,7 @@ const HomePage: NextPage<IPropsHomePage> = ({ pokemons }) => {
 export default HomePage
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  const { data } = await pokemonData.get<IPokemon>('/pokemon?limit=151')
+  const { data } = await pokemonData.get<IPokemon>('/pokemon?limit=200')
 
   const pokemons = data.results.map((pokemon, index) => ({
     ...pokemon,

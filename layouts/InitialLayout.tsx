@@ -23,7 +23,7 @@ export const InitialLayout: FC<IPropsInitialLayout> = ({
         />
       </Head>
       <NavbarUiComponent />
-      <main className='px-5'>{children}</main>
+      <main className='px-5 pt-[80px] text-white'>{children}</main>
     </>
   )
 }
