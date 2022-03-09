@@ -1,10 +1,15 @@
 import confetti from 'canvas-confetti'
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import {
+  GetStaticPaths,
+  GetStaticProps,
+  GetStaticPropsResult,
+  NextPage
+} from 'next'
 import Image from 'next/image'
 import { useState } from 'react'
 import { IPokemon, Sprites } from '../../../interface'
 import { InitialLayout } from '../../../layouts'
-import { getInfoPokemon, pokemonData } from '../../../utils'
+import { getInfoPokemon, IGetInfoPokemon, pokemonData } from '../../../utils'
 import { existInFavorite, toggleFavorite } from '../../../utils/toggleFavorite'
 
 export interface IPropsPokemonPage {
@@ -116,16 +121,17 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 
   return {
     paths: pokemon200.map(pokemon => ({ params: { name: pokemon } })),
-    fallback: false
+    fallback: 'blocking'
   }
 }
 
 export const getStaticProps: GetStaticProps = async ctx => {
   const { name } = ctx.params as { name: string }
+  let resp: GetStaticPropsResult<IGetInfoPokemon | {}> = { props: {} }
+  const pokemon = await getInfoPokemon(name)
 
-  return {
-    props: {
-      ...(await getInfoPokemon(name))
-    }
-  }
+  if (pokemon) resp.props = pokemon
+  else resp = { redirect: { destination: '/', permanent: false } }
+
+  return resp
 }
