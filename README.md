@@ -6,7 +6,7 @@
 
 ### Temas puntuales
 
-Utilización de getStaticProps y getStaticPaths en next js con typescript
+Utilización de getStaticProps, getStaticPaths y Incremental Static Regeneration en next js con typescript
 
 <img src="./img.png">
 
